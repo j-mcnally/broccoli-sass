@@ -1,42 +1,17 @@
-var fs = require('fs')
-var path = require('path')
-var mkdirp = require('mkdirp')
-var includePathSearcher = require('include-path-searcher')
-var Writer = require('broccoli-writer')
-var mapSeries = require('promise-map-series')
-var sass = require('node-sass')
-var _ = require('lodash')
-
-
-module.exports = SassCompiler
-SassCompiler.prototype = Object.create(Writer.prototype)
-SassCompiler.prototype.constructor = SassCompiler
-function SassCompiler (sourceTrees, inputFile, outputFile, options) {
-  if (!(this instanceof SassCompiler)) return new SassCompiler(sourceTrees, inputFile, outputFile, options)
-  this.sourceTrees = sourceTrees
-  this.inputFile = inputFile
-  this.outputFile = outputFile
-  options = options || {}
-  this.sassOptions = {
-    imagePath: options.imagePath,
-    outputStyle: options.outputStyle,
-    sourceComments: options.sourceComments,
-    sourceMap: options.sourceMap
-  }
+var Filter = require('broccoli-filter')
+var transpiler = require('./lib/sass2scss.js')
+module.exports = Sass2scss
+Sass2scss.prototype = Object.create(Filter.prototype)
+Sass2scss.prototype.constructor = Sass2scss
+function Sass2scss (inputTree) {
+  if (!(this instanceof Sass2scss)) return new Sass2scss(inputTree)
+  Filter.call(this, inputTree)
 }
 
-SassCompiler.prototype.write = function (readTree, destDir) {
-  var self = this
-  var destFile = destDir + '/' + this.outputFile
-  mkdirp.sync(path.dirname(destFile))
-  return mapSeries(this.sourceTrees, readTree)
-    .then(function (includePaths) {
-      var sassOptions = {
-        file: includePathSearcher.findFileSync(self.inputFile, includePaths),
-        includePaths: includePaths
-      }
-      _.merge(sassOptions, self.sassOptions)
-      var css = sass.renderSync(sassOptions)
-      fs.writeFileSync(destFile, css, { encoding: 'utf8' })
-    })
+Sass2scss.prototype.extensions = ['css.sass', 'sass']
+Sass2scss.prototype.targetExtension = 'scss'
+
+Sass2scss.prototype.processString = function (string) {
+  var result = transpiler(string)
+  return result
 }

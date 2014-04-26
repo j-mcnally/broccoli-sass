@@ -1,27 +1,24 @@
 {
-  "name": "broccoli-sass",
-  "description": "Libsass-based Sass compiler for Broccoli",
+  "name": "broccoli-sass2scss",
+  "description": "Sass to Scss transpiler for Broccoli",
   "version": "0.1.3",
-  "author": "Jo Liss <joliss42@gmail.com>",
+  "author": "Justin McNally <justin@kohactive.com>",
   "main": "index.js",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/joliss/broccoli-sass"
+    "url": "https://github.com/jmcnally/broccoli-sass2scss"
   },
   "keywords": [
     "broccoli-plugin",
     "sass",
     "scss",
     "css",
-    "libsass"
+    "sass2scss"
   ],
   "dependencies": {
-    "mkdirp": "^0.3.5",
-    "lodash": "~2.4.1",
-    "promise-map-series": "^0.2.0",
-    "include-path-searcher": "^0.1.0",
-    "node-sass": "^0.8.1",
-    "broccoli-writer": "^0.1.1"
+    "broccoli-filter": "^0.1.4",
+    "ember-template-compiler": "^1.5.0-beta.4",
+    "emblem": "^0.3.12"
   }
 }
