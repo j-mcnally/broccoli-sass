@@ -12,6 +12,7 @@ npm install --save-dev broccoli-sass2scss
 ## Usage
 
 ```js
+var sass2scss = require('broccoli-sass2scss')
 var sourceTrees = [app, config, 'vendor'].concat(broccoli.bowerTrees());
 var appAndDependencies = mergeTrees(sourceTrees, { overwrite: true });
 appAndDependencies = sass2scss(appAndDependencies);
