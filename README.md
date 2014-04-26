@@ -1,35 +1,21 @@
 # broccoli-sass
 
-The broccoli-sass plugin compiles `.scss` files with
-[libsass](https://github.com/hcatlin/libsass).
+The broccoli-sass2scss plugin transpiles `.sass` files to `.scss` files with
+[sass2scss](https://github.com/ArnaudRinquin/sass2scss) with some syntax updates by j-mcnally.
 
 ## Installation
 
 ```bash
-npm install --save-dev broccoli-sass
+npm install --save-dev broccoli-sass2scss
 ```
 
 ## Usage
 
 ```js
-var compileSass = require('broccoli-sass');
-
-var outputTree = compileSass(inputTrees, inputFile, outputFile, options);
+var sourceTrees = [app, config, 'vendor'].concat(broccoli.bowerTrees());
+var appAndDependencies = mergeTrees(sourceTrees, { overwrite: true });
+appAndDependencies = sass2scss(appAndDependencies);
+var styles = preprocessCss([appAndDependencies], prefix + '/styles', '/assets');
 ```
 
-* **`inputTrees`**: An array of trees that act as the include paths for
-  libsass. If you have a single tree, pass `[tree]`.
-
-* **`inputFile`**: Relative path of the main `.scss` file to compile. This
-  file must exist in one of the `inputTrees`.
-
-* **`outputFile`**: Relative path of the output CSS file.
-
-* **`options`**: A hash of options for libsass. Supported options are
-  `imagePath`, `outputStyle`, `sourceComments`, and `sourceMap`.
-
-### Example
-
-```js
-var appCss = compileSass(sourceTrees, 'myapp/app.scss', 'assets/app.css');
-```
+This has only been tested with Ember-Cli but should work with any Broccoli project. It basically add the step/middleware of translating sass files to scss so that libsass can handle them.
