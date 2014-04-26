@@ -1,4 +1,4 @@
-# broccoli-sass
+# broccoli-sass2scss
 
 The broccoli-sass2scss plugin transpiles `.sass` files to `.scss` files with
 [sass2scss](https://github.com/ArnaudRinquin/sass2scss) with some syntax updates by j-mcnally.
